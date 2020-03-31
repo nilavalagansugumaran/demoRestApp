@@ -51,8 +51,8 @@ public class EmployeeController {
             "Accept=application/json, application/xml"})
     @ResponseStatus(HttpStatus.CREATED)
     public Employee addEmployee(@RequestBody Employee emp) {
-
-        return service.addEmployee(emp);
+        return employeeJDBCService.addEmployee(emp);
+       // return service.addEmployee(emp);
     }
 
     @DeleteMapping(path = "/employee/{id}", headers = {"Accept=application/json, application/xml"})
