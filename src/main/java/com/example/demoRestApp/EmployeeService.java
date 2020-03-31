@@ -2,7 +2,9 @@ package com.example.demoRestApp;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -40,8 +42,12 @@ public class EmployeeService {
     public void updateEmployee(long id, Employee employee) {
 
         Employee e = employeeMock.get(id);
-        e.setSal(employee.getSal());
-        employeeMock.replace(id, e);
+        if(e !=null) {
+            e.setSal(employee.getSal());
+            employeeMock.replace(id, e);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "cant update , Employee not found for id " + id);
+        }
     }
 
 }
