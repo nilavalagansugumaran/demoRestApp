@@ -2,30 +2,31 @@ package com.example.demoRestApp;
 
 import com.example.demoRestApp.dao.EmployeeJPA;
 import com.example.demoRestApp.dao.EmployeeJPARepository;
+import com.example.demoRestApp.mongo.EmployeeMongo;
+import com.example.demoRestApp.mongo.EmployeeMongoRepository;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Data
 @Service
 @Slf4j
-public class EmployeeJPARepositoryService {
+public class EmployeeMongoRepositoryService {
 
     @Autowired
-    EmployeeJPARepository employeeJPARepository;
+    EmployeeMongoRepository employeeMongoRepository;
 
 
     public Employee getEmployee(long id) {
 
-       Optional<EmployeeJPA> e =  employeeJPARepository.findById(id);
+       Optional<EmployeeMongo> e =  employeeMongoRepository.findById(id);
 
        if (e.isPresent()) {
-           EmployeeJPA e1 = e.get();
+           EmployeeMongo e1 = e.get();
            Employee employee = new Employee(e1.getId(), e1.getName(), e1.getSal());
            return employee;
        } else {
@@ -36,15 +37,14 @@ public class EmployeeJPARepositoryService {
     @Transactional
     public Employee addEmployee(Employee employee) {
 
-        EmployeeJPA existing = employeeJPARepository.findByName(employee.getName());
+        EmployeeMongo existing = employeeMongoRepository.findByName(employee.getName());
 
         if(existing == null) {
-
-        EmployeeJPA e  = new EmployeeJPA();
+            EmployeeMongo e  = new EmployeeMongo();
         e.setName(employee.getName());
         e.setSal(employee.getSal());
 
-        e = employeeJPARepository.save(e);
+        e = employeeMongoRepository.save(e);
 
         employee.setId(e.getId());
         return employee;
@@ -56,17 +56,17 @@ public class EmployeeJPARepositoryService {
 //
     @Transactional
     public void deleteEmployee(long id) {
-        employeeJPARepository.deleteById(id);
+        employeeMongoRepository.deleteById(id);
     }
 //
     @Transactional
     public void updateEmployee(long id, Employee employee) {
 
-        Optional<EmployeeJPA> e =  employeeJPARepository.findById(id);
+        Optional<EmployeeMongo> e =  employeeMongoRepository.findById(id);
         if (e.isPresent()) {
-            EmployeeJPA e1 = e.get();
+            EmployeeMongo e1 = e.get();
             e1.setSal(employee.getSal());
-            employeeJPARepository.save(e1);
+            employeeMongoRepository.save(e1);
         }
     }
 

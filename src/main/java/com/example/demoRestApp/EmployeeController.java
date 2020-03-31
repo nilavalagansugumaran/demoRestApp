@@ -9,13 +9,17 @@ import org.springframework.web.server.ResponseStatusException;
 @CrossOrigin
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeService service;
+  //  @Autowired
+  //  private EmployeeService service;
 
-    @Autowired
-    private EmployeeJDBCService employeeJDBCService;
+  //  @Autowired
+   // private EmployeeJDBCService employeeJDBCService;
 
-    @Autowired EmployeeJPARepositoryService employeeJPARepositoryService;
+   // @Autowired EmployeeJPARepositoryService employeeJPARepositoryService;
+
+
+    @Autowired EmployeeMongoRepositoryService employeeMongoRepositoryService;
+
 
     @GetMapping(path = "/oneEmployee", headers = "Accept=application/json, application/xml")
     //@RequestMapping
@@ -29,7 +33,8 @@ public class EmployeeController {
 
        // Employee e = employeeJDBCService.getEmployee(id);
 
-        Employee e = employeeJPARepositoryService.getEmployee(id);
+      //  Employee e = employeeJPARepositoryService.getEmployee(id);
+        Employee e = employeeMongoRepositoryService.getEmployee(id);
       //  Employee e = service.getEmployee(id);
 
         if (e == null) {
@@ -42,7 +47,8 @@ public class EmployeeController {
     public Employee queryEmployee(@RequestParam(name = "id", required = false, defaultValue = "101") Long id) {
 
        // Employee e = employeeJDBCService.getEmployee(id);
-        Employee e = employeeJPARepositoryService.getEmployee(id);
+       // Employee e = employeeJPARepositoryService.getEmployee(id);
+        Employee e = employeeMongoRepositoryService.getEmployee(id);
        // Employee e = service.getEmployee(id);
 
         if (e == null) {
@@ -57,7 +63,8 @@ public class EmployeeController {
     @ResponseStatus(HttpStatus.CREATED)
     public Employee addEmployee(@RequestBody Employee emp) {
 
-      return employeeJPARepositoryService.addEmployee(emp);
+        return employeeMongoRepositoryService.addEmployee(emp);
+      //return employeeJPARepositoryService.addEmployee(emp);
       //  return employeeJDBCService.addEmployee(emp);
        // return service.addEmployee(emp);
     }
@@ -65,7 +72,8 @@ public class EmployeeController {
     @DeleteMapping(path = "/employee/{id}", headers = {"Accept=application/json, application/xml"})
     public void deleteEmployee(@PathVariable("id") Long id) {
 
-        employeeJPARepositoryService.deleteEmployee(id);
+           employeeMongoRepositoryService.deleteEmployee(id);
+        //employeeJPARepositoryService.deleteEmployee(id);
         //service.deleteEmployee(id);
     }
 
@@ -73,7 +81,8 @@ public class EmployeeController {
             "Accept=application/json, application/xml"})
     public void updateEmployee(@PathVariable("id") Long id, @RequestBody Employee emp) {
 
-        employeeJPARepositoryService.updateEmployee(id, emp);
+        employeeMongoRepositoryService.updateEmployee(id, emp);
+      //  employeeJPARepositoryService.updateEmployee(id, emp);
      //  service.updateEmployee(id, emp);
     }
 
