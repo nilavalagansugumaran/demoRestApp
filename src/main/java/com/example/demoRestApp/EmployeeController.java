@@ -12,6 +12,9 @@ public class EmployeeController {
     @Autowired
     private EmployeeService service;
 
+    @Autowired
+    private EmployeeJDBCService employeeJDBCService;
+
     @GetMapping(path = "/oneEmployee", headers = "Accept=application/json, application/xml")
     //@RequestMapping
     public Employee getOneEmployee() {
@@ -22,7 +25,8 @@ public class EmployeeController {
     @GetMapping(path = "/employee/{id}", headers = "Accept=application/json, application/xml")
     public Employee getEmployee(@PathVariable("id") Long id) {
 
-        Employee e = service.getEmployee(id);
+        Employee e = employeeJDBCService.getEmployee(id);
+      //  Employee e = service.getEmployee(id);
 
         if (e == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found for id " + id);
@@ -33,7 +37,8 @@ public class EmployeeController {
     @GetMapping(path = "/employee", headers = "Accept=application/json, application/xml")
     public Employee queryEmployee(@RequestParam(name = "id", required = false, defaultValue = "101") Long id) {
 
-        Employee e = service.getEmployee(id);
+        Employee e = employeeJDBCService.getEmployee(id);
+       // Employee e = service.getEmployee(id);
 
         if (e == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found for id " + id);

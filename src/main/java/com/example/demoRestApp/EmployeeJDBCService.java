@@ -19,10 +19,11 @@ public class EmployeeJDBCService {
    @Autowired
     private JdbcTemplate jdbcTemplate;
 
-//    public Employee getEmployee(long id) {
-//
-//
-//    }
+    public Employee getEmployee(long id) {
+
+        String sql = "SELECT * FROM EMPLOYEES where EMPLOYEEID = ?";
+       return jdbcTemplate.queryForObject(sql,  new Object[]{id}, new EmployeeRowMapper());
+    }
 //
 //    public Employee addEmployee(Employee employee) {
 //
