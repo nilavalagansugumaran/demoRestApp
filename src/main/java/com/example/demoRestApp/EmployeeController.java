@@ -15,6 +15,8 @@ public class EmployeeController {
     @Autowired
     private EmployeeJDBCService employeeJDBCService;
 
+    @Autowired EmployeeJPARepositoryService employeeJPARepositoryService;
+
     @GetMapping(path = "/oneEmployee", headers = "Accept=application/json, application/xml")
     //@RequestMapping
     public Employee getOneEmployee() {
@@ -25,7 +27,9 @@ public class EmployeeController {
     @GetMapping(path = "/employee/{id}", headers = "Accept=application/json, application/xml")
     public Employee getEmployee(@PathVariable("id") Long id) {
 
-        Employee e = employeeJDBCService.getEmployee(id);
+       // Employee e = employeeJDBCService.getEmployee(id);
+
+        Employee e = employeeJPARepositoryService.getEmployee(id);
       //  Employee e = service.getEmployee(id);
 
         if (e == null) {
@@ -37,7 +41,8 @@ public class EmployeeController {
     @GetMapping(path = "/employee", headers = "Accept=application/json, application/xml")
     public Employee queryEmployee(@RequestParam(name = "id", required = false, defaultValue = "101") Long id) {
 
-        Employee e = employeeJDBCService.getEmployee(id);
+       // Employee e = employeeJDBCService.getEmployee(id);
+        Employee e = employeeJPARepositoryService.getEmployee(id);
        // Employee e = service.getEmployee(id);
 
         if (e == null) {
@@ -51,21 +56,25 @@ public class EmployeeController {
             "Accept=application/json, application/xml"})
     @ResponseStatus(HttpStatus.CREATED)
     public Employee addEmployee(@RequestBody Employee emp) {
-        return employeeJDBCService.addEmployee(emp);
+
+      return employeeJPARepositoryService.addEmployee(emp);
+      //  return employeeJDBCService.addEmployee(emp);
        // return service.addEmployee(emp);
     }
 
     @DeleteMapping(path = "/employee/{id}", headers = {"Accept=application/json, application/xml"})
     public void deleteEmployee(@PathVariable("id") Long id) {
 
-        service.deleteEmployee(id);
+        employeeJPARepositoryService.deleteEmployee(id);
+        //service.deleteEmployee(id);
     }
 
     @PutMapping(path = "/employee/{id}", headers = {"Content-Type=application/json, application/xml",
             "Accept=application/json, application/xml"})
     public void updateEmployee(@PathVariable("id") Long id, @RequestBody Employee emp) {
 
-       service.updateEmployee(id, emp);
+        employeeJPARepositoryService.updateEmployee(id, emp);
+     //  service.updateEmployee(id, emp);
     }
 
 }
