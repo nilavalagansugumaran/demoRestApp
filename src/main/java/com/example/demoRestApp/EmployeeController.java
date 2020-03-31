@@ -30,4 +30,23 @@ public class EmployeeController {
        return e;
     }
 
+    @GetMapping(path = "/employee", headers = "Accept=application/json, application/xml")
+    public Employee queryEmployee(@RequestParam(name = "id", required = false, defaultValue = "101") Long id) {
+
+        Employee e =  service.getEmployee(id);
+
+        if (e == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found for id " + id);
+        }
+        return e;
+    }
+
+    
+    @PostMapping(path = "/employee", headers = {"Content-Type=application/json, application/xml", "Accept=application/json, application/xml"})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee addEmployee(@RequestBody Employee emp) {
+
+        return service.addEmployee(emp);
+    }
+
 }

@@ -28,7 +28,8 @@ public class EmployeeService {
 
         long empId = employeeMock.size() + 100 + 1;
         employee.setId(empId);
-        return employeeMock.put(empId, employee);
+        employeeMock.put(empId, employee);
+        return employee;
     }
 
     public void deleteEmployee(long id) {
